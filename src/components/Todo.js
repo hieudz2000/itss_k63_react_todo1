@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 /* 
   【Todoのデータ構成】
-　・key：Todoを特定するID（String）
-　・text：Todoの内容（String）
-　・done：完了状態（Boolean true:完了済み,, false:未完了）
+ ・key：Todoを特定するID（String）
+ ・text：Todoの内容（String）
+ ・done：完了状態（Boolean true:完了済み,, false:未完了）
 */
 
 /* コンポーネント */
@@ -16,12 +16,12 @@ import Filter from './Filter';
 import useStorage from '../hooks/storage';
 
 /* ライブラリ */
-import {getKey} from "../lib/util";
+import { getKey } from "../lib/util";
 
 function Todo() {
   const [items, putItems] = React.useState([
-      /* テストコード 開始 */
-    { key: getKey(), text: '日本語の宿題', done: false },
+    /* テストコード 開始 */
+    { key: getKey(), text: '日本語の宿題', done: true },
     { key: getKey(), text: 'reactを勉強する', done: false },
     { key: getKey(), text: '明日の準備をする', done: false },
     /* テストコード 終了 */
@@ -34,15 +34,17 @@ function Todo() {
       }else return i
     })])
   }
+  const handleEnter = (value)=>{
+     putItems([...items, { key: getKey(), text: value, done: false }])
+  }
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
+      <Input handleEnter={handleEnter}/>
       {items.map(item => (
-       
         <TodoItem key={item.key} item={item} handleClick={handleClick}/>
-      
       ))}
       <div className="panel-block">
         {items.length} items
