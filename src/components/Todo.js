@@ -19,6 +19,7 @@ import useStorage from '../hooks/storage';
 import { getKey } from "../lib/util";
 
 function Todo() {
+  const [key, setKey] = useState(1);
   const [items, putItems] = React.useState([
     /* テストコード 開始 */
     { key: getKey(), text: '日本語の宿題', done: true },
@@ -26,31 +27,38 @@ function Todo() {
     { key: getKey(), text: '明日の準備をする', done: false },
     /* テストコード 終了 */
   ]);
-  const handleClick = (item)=>{
+  const handleClick = (item) => {
     putItems([...items.map(i => {
-      if(i.key == item.key){
-        i.done =!i.done
+      if (i.key == item.key) {
+        i.done = !i.done
         return i
-      }else return i
+      } else return i
     })])
   }
-  const handleEnter = (value)=>{
-     putItems([...items, { key: getKey(), text: value, done: false }])
+  const handleEnter = (value) => {
+    putItems([...items, { key: getKey(), text: value, done: false }])
+  }
+  const handleFilter = (key) => {
+    setKey(key)
   }
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
-      <Input handleEnter={handleEnter}/>
-      {items.map(item => (
-        <TodoItem key={item.key} item={item} handleClick={handleClick}/>
+      <Filter handleFilter={handleFilter} key={key} />
+      <Input handleEnter={handleEnter} />
+      {items.filter(i => key == 1 || key == 2 && i.done == false || key == 3 && i.done == true).map(item => (
+        <TodoItem key={item.key} item={item} handleClick={handleClick} />
       ))}
       <div className="panel-block">
-        {items.length} items
+        {items.filter(i => key == 1 || key == 2 && i.done == false || key == 3 && i.done == true).length} items
       </div>
     </div>
   );
 }
 
 export default Todo;
+© 2022 GitHub, Inc.
+Terms
+Privacy
